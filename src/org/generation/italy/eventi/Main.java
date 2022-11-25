@@ -18,6 +18,7 @@ public class Main {
 		String eventName;
 		int eventSeatsNumber;
 		int reservationAttempt;
+		int cancellationOfSeatsAttempt;
 		int whatDoYouWantToDo=0;
 		String doYouWantToBook;
 		String doYouWantToCancelYourReservation;
@@ -60,12 +61,9 @@ public class Main {
 				eventSeatsNumber=Integer.parseInt(sc.nextLine());
 				
 				try {
-
-					
 					eventPlanner.addEventToList(new Event(eventName, date, eventSeatsNumber));
 				}
 				catch (Exception e) {
-
 					System.err.println(e.getMessage());
 				}
 				finally {
@@ -76,31 +74,27 @@ public class Main {
 			
 			if(whatDoYouWantToDo==2)
 			{
-				
-				System.out.println("Do you want to book in some events?(y to confirm)");
+				System.out.println("Do you want to book a seat? (y to confirm)");
 				doYouWantToBook=sc.nextLine();
-				
 				if(doYouWantToBook.equals("y"))
 				{
-					System.out.println("How many reservation do you want to attempt?:");
+					System.out.println("How many reservation do you want to book?:");
 					reservationAttempt=Integer.parseInt(sc.nextLine());
-					
 					System.out.println("for what event?: (type the index at the end of the list)");
-					
 					try {
-						for(int i=0;i<events.size();i++)
+						for(int i=0;i<eventPlanner.getEventNumber();i++)
 						{						
 							System.out.println("\nindex "+i+"[");
-							System.out.print(events.get(i));
+							System.out.print(eventPlanner.printEvent(i));
 							System.out.println("]\n");
 						}
 						
 						int eventIndex=Integer.parseInt(sc.nextLine());
-						events.get(eventIndex).Booking(reservationAttempt);
-
+						
+						eventPlanner.bookingReservation(eventIndex, reservationAttempt);
 						
 						System.out.println("\nindex "+eventIndex+"[");
-						System.out.print(events.get(eventIndex));
+						System.out.print(eventPlanner.printEvent(eventIndex));
 						System.out.println("]\n");
 
 					}
@@ -118,30 +112,29 @@ public class Main {
 			
 			if(whatDoYouWantToDo==3)
 			{
-				System.out.println("Do you want to cancel your reservation in some events?(y to confirm)");
+				System.out.println("Do you want to cancel your reservation?(y to confirm)");
 				doYouWantToCancelYourReservation=sc.nextLine();
 				
 				if(doYouWantToCancelYourReservation.equals("y"))
 				{
 					System.out.println("How many reservation do you want to cancel?:");
-					reservationAttempt=Integer.parseInt(sc.nextLine());
+					cancellationOfSeatsAttempt=Integer.parseInt(sc.nextLine());
 					
-					System.out.println("for what event?: (type the index at the end of the list)");
+					System.out.println("for wich event?: (type the index at the end of the list)");
 					
 					try {
-						for(int i=0;i<events.size();i++)
+						for(int i=0;i<eventPlanner.getEventNumber();i++)
 						{						
 							System.out.println("\nindex "+i+"[");
-							System.out.print(events.get(i));
+							System.out.print(eventPlanner.printEvent(i));
 							System.out.println("]\n");
 						}
 						
 						int eventIndex=Integer.parseInt(sc.nextLine());
-						events.get(eventIndex).CancelReservation(reservationAttempt);
-
+						eventPlanner.cancelReservation(eventIndex, cancellationOfSeatsAttempt);
 						
 						System.out.println("\nindex "+eventIndex+"[");
-						System.out.print(events.get(eventIndex));
+						System.out.print(eventPlanner.printEvent(eventIndex));
 						System.out.println("]\n");
 
 					}
@@ -161,10 +154,10 @@ public class Main {
 
 				
 				try {
-					for(int i=0;i<events.size();i++)
+					for(int i=0;i<eventPlanner.getEventNumber();i++)
 					{						
 						System.out.println("\nindex "+i+"[");
-						System.out.print(events.get(i));
+						System.out.print(eventPlanner.printEvent(i));
 						System.out.println("]\n");
 						
 					}
@@ -180,12 +173,12 @@ public class Main {
 			}
 			if(whatDoYouWantToDo==5)
 			{
-				System.out.println("totalNumberOfEvent: "+ events.size());
+				System.out.println("totalNumberOfEvent: "+ eventPlanner.getEventNumber());
 			}
 			if(whatDoYouWantToDo==6)
 			{
 				System.out.println("all events was be deleted");
-				events.clear();
+				eventPlanner.clearListFromEvents();
 			}
 						
 		}

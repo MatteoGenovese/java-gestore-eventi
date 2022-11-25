@@ -7,8 +7,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
-
-
 public class EventPlanning {
 	
 	private String title;
@@ -21,22 +19,26 @@ public class EventPlanning {
 		this.events = new ArrayList<>();
 	}
 	
-	
 	public void addEventToList(Event event) {
 		this.events.add(event);
 	}
+		
+	public void bookingReservation(int eventIndex, int reservationAttempt) throws Exception {
+		this.events.get(eventIndex).Booking(reservationAttempt);
+	}
+	
+	public void cancelReservation(int eventIndex, int cancellationOfSeatsAttempt) throws Exception {
+		this.events.get(eventIndex).CancelReservation(cancellationOfSeatsAttempt);
+	}
 	
 	public void getList() {
-		
 		for(int i=0; i<events.size();i++)
 		{
 			System.out.println(this.events.get(i));
-
 		}
 	}
 	
 	public List<Event> getEventListInADate ( List <Event> eventList, LocalDate date) {
-		
 		List <Event> listOfEventInASpecificDate = new ArrayList<Event>();
 		for (int i=0;i<eventList.size();i++)
 		{
@@ -48,7 +50,7 @@ public class EventPlanning {
 		return listOfEventInASpecificDate;
 	}
 	
-	public int getEventNumer ( List <Event> eventList) {
+	public int getEventNumber ( ) {
 		return events.size();
 	}
 	
@@ -57,13 +59,10 @@ public class EventPlanning {
 	}
 	
 	public void getPlanning () {
-
 		events.sort(new DateComparator());
-	
 	}
 	
 	public static class DateComparator implements Comparator<Event> {
-		
 		@Override
 		public int compare(Event o1, Event o2) {
 			// TODO Auto-generated method stub
@@ -71,15 +70,11 @@ public class EventPlanning {
 				return -1;
 			if (o1.getDate().isBefore(o2.getDate()))
 				return 1;
-
 			return 0;
-
 		}
 	}
 	
-	
-	
-	
-	
-
+	public String printEvent(int index) {
+		return this.events.get(index).toString();
+	}
 }
