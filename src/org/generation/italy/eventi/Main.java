@@ -23,10 +23,10 @@ public class Main {
 		String doYouWantToCancelYourReservation;
 		Event event=null;
 		
+		
 		ArrayList <Event> events = new ArrayList <Event> ();
 		
-		events.add(new Event("circo", LocalDate.of(2023,04, 05), 10));
-
+		EventPlanning eventPlanner = new EventPlanning("New List");
 
 		while(true)
 		{
@@ -34,11 +34,16 @@ public class Main {
 					+"\n1-Insert a new event"
 					+"\n2-Book some seats"
 					+"\n3-cancel your reservation"
-					+"\n4-Print all the events");
+					+"\n4-Print all the events"
+					+"\n5-Print the total events number"
+					+"\n6-Clear all the events list");
 			whatDoYouWantToDo=Integer.parseInt(sc.nextLine());
 			
 			if(whatDoYouWantToDo==1)
 			{
+				
+				
+				
 				System.out.println("Event name:");
 				eventName=sc.nextLine();
 				
@@ -55,7 +60,9 @@ public class Main {
 				eventSeatsNumber=Integer.parseInt(sc.nextLine());
 				
 				try {
-					events.add(new Event(eventName, date, eventSeatsNumber));
+
+					
+					eventPlanner.addEventToList(new Event(eventName, date, eventSeatsNumber));
 				}
 				catch (Exception e) {
 
@@ -170,6 +177,15 @@ public class Main {
 
 
 				}
+			}
+			if(whatDoYouWantToDo==5)
+			{
+				System.out.println("totalNumberOfEvent: "+ events.size());
+			}
+			if(whatDoYouWantToDo==6)
+			{
+				System.out.println("all events was be deleted");
+				events.clear();
 			}
 						
 		}
