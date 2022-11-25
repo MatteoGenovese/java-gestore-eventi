@@ -13,7 +13,7 @@ public class Event {
 	private int numberOfSeatsBooked;
 	private int totalNumberOfSeates;
 
-	public Event(String title, LocalDate date, int totalNumberOfSeates) {
+	public Event(String title, LocalDate date, int totalNumberOfSeates) throws Exception {
 		super();
 		setTitle(title);
 		setDate(date);
@@ -31,9 +31,21 @@ public class Event {
 	public LocalDate getDate() {
 		return date;
 	}
-	public void setDate(LocalDate date) {
+	public void setDate(LocalDate date) throws Exception {
+
+		
+		if(!isValidDate(date))
+		{
+			throw new Exception("Invalid Value of Date: Date after today is required"); 
+		}
 		this.date = date;
+
 	}
+	private boolean isValidDate(LocalDate date) {
+		return date.isAfter(LocalDate.now());
+	}
+	
+	
 	public int getNumberOfSeatsBooked() {
 		return numberOfSeatsBooked;
 	}
@@ -43,30 +55,64 @@ public class Event {
 	public int getTotalNumberOfSeates() {
 		return totalNumberOfSeates;
 	}
-	public void setTotalNumberOfSeates(int totalNumberOfSeates) {
+	public void setTotalNumberOfSeates(int totalNumberOfSeates) throws Exception {
 		
-		while(true)
+		if(!isValidNumberOfSeats(totalNumberOfSeates))
 		{
-			if(totalNumberOfSeates>0)
-			{
-				this.totalNumberOfSeates = totalNumberOfSeates;
-				break;
-			}
-			else
-			{
-				System.out.println("number of seates has to be positive, insert a new number");
-				totalNumberOfSeates=Integer.parseInt(sc.nextLine());
-			}
+			throw new Exception("Invalid Value of totalNumberOfSeates: totalNumberOfSeates is required"); 
 		}
+		this.totalNumberOfSeates = totalNumberOfSeates;
 	}
+	private boolean isValidNumberOfSeats(int totalNumberOfSeates) {
+		return totalNumberOfSeates>0;
+	}
+	
+	public void Booking (int reservationAttempt) throws Exception
+	{
+		if(isEventPassed())
+		{
+			throw new Exception("You can't book to this event anymore: this event is passed"); 
+		}
+		if(isEventFull(reservationAttempt))
+		{
+			throw new Exception("You can't book the amount of seats: there is no availability of the requested amount of seats"); 
+		}
+			this.numberOfSeatsBooked+=reservationAttempt;
+	}
+	
+	public void CancelReservation(int cancellationOfSeatsAttempt) throws Exception {
+		if(isEventPassed())
+		{
+			throw new Exception("You can't cancel your reservation to this event anymore: this event is passed"); 
+		}
+		if(isEventEmpty(cancellationOfSeatsAttempt))
+		{
+			throw new Exception("You can't cancel your reservation to this event: seats booked < cancellation requested"); 
+		}
+
+			this.numberOfSeatsBooked-=cancellationOfSeatsAttempt;
+		
+	}
+	
+	private boolean isEventPassed() {
+		return date.isBefore(LocalDate.now());
+	}
+	private boolean isEventFull(int reservationAttempt) {
+		return this.numberOfSeatsBooked+reservationAttempt>this.totalNumberOfSeates;
+	}
+	private boolean isEventEmpty(int cancellationOfSeatsAttempt) {
+		return this.numberOfSeatsBooked-cancellationOfSeatsAttempt<0;
+	}
+	
+	
 	
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "\n Event:"+getTitle()
-				+"\n date:"+getDate()
-				+"\n numberOfseatsBooked:"+getNumberOfSeatsBooked()
-				+"\n totalNumberOfSeats:"+getTotalNumberOfSeates();
+		return "Event:"+getTitle()
+				+"\ndate:"+getDate()
+				+"\nnumberOfseatsBooked:"+getNumberOfSeatsBooked()
+				+"\ntotalNumberOfSeats:"+getTotalNumberOfSeates();
 	}
 
 
