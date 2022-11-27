@@ -22,13 +22,12 @@ public class Main {
 		int whatDoYouWantToDo=0;
 		String doYouWantToBook;
 		String doYouWantToCancelYourReservation;
-		Event event=null;
-		
-		
-		ArrayList <Event> events = new ArrayList <Event> ();
-		
 		EventPlanning eventPlanner = new EventPlanning("New List");
-
+		
+		UniqueEventsPlanner uniqueEventPlanner = new UniqueEventsPlanner("New List");
+		
+		Event e1 = new Event("circo", LocalDate.of(2023,1, 1), 25);
+		
 		while(true)
 		{
 			System.out.println("What do you want to do:"
@@ -42,12 +41,8 @@ public class Main {
 			
 			if(whatDoYouWantToDo==1)
 			{
-				
-				
-				
 				System.out.println("Event name:");
 				eventName=sc.nextLine();
-				
 				System.out.println("year:");
 				year=Integer.parseInt(sc.nextLine());
 				System.out.println("month:");
@@ -55,11 +50,8 @@ public class Main {
 				System.out.println("day:");
 				day=Integer.parseInt(sc.nextLine());
 				date=LocalDate.of(year,month, day);
-				
-				
 				System.out.println("Place number of seats:");
 				eventSeatsNumber=Integer.parseInt(sc.nextLine());
-				
 				try {
 					eventPlanner.addEventToList(new Event(eventName, date, eventSeatsNumber));
 				}
@@ -67,8 +59,6 @@ public class Main {
 					System.err.println(e.getMessage());
 				}
 				finally {
-
-
 				}
 			}
 			
@@ -82,21 +72,17 @@ public class Main {
 					reservationAttempt=Integer.parseInt(sc.nextLine());
 					System.out.println("for what event?: (type the index at the end of the list)");
 					try {
-						for(int i=0;i<eventPlanner.getEventNumber();i++)
+						for(int i=0;i<eventPlanner.getEventsNumber();i++)
 						{						
 							System.out.println("\nindex "+i+"[");
 							System.out.print(eventPlanner.printEvent(i));
 							System.out.println("]\n");
 						}
-						
 						int eventIndex=Integer.parseInt(sc.nextLine());
-						
 						eventPlanner.bookingReservation(eventIndex, reservationAttempt);
-						
 						System.out.println("\nindex "+eventIndex+"[");
 						System.out.print(eventPlanner.printEvent(eventIndex));
 						System.out.println("]\n");
-
 					}
 					catch (Exception e) {
 
@@ -123,43 +109,35 @@ public class Main {
 					System.out.println("for wich event?: (type the index at the end of the list)");
 					
 					try {
-						for(int i=0;i<eventPlanner.getEventNumber();i++)
+						for(int i=0;i<eventPlanner.getEventsNumber();i++)
 						{						
 							System.out.println("\nindex "+i+"[");
 							System.out.print(eventPlanner.printEvent(i));
 							System.out.println("]\n");
 						}
-						
 						int eventIndex=Integer.parseInt(sc.nextLine());
 						eventPlanner.cancelReservation(eventIndex, cancellationOfSeatsAttempt);
-						
 						System.out.println("\nindex "+eventIndex+"[");
 						System.out.print(eventPlanner.printEvent(eventIndex));
 						System.out.println("]\n");
-
 					}
 					catch (Exception e) {
 
 						System.err.println(e.getMessage());
 					}
 					finally {
-						
-
 					}
 				}
 			}
 			
 			if(whatDoYouWantToDo==4)
 			{
-
-				
 				try {
-					for(int i=0;i<eventPlanner.getEventNumber();i++)
+					for(int i=0;i<eventPlanner.getEventsNumber();i++)
 					{						
 						System.out.println("\nindex "+i+"[");
 						System.out.print(eventPlanner.printEvent(i));
 						System.out.println("]\n");
-						
 					}
 				}
 				catch (Exception e) {
@@ -167,22 +145,17 @@ public class Main {
 					System.err.println(e.getMessage());
 				}
 				finally {
-
-
 				}
 			}
 			if(whatDoYouWantToDo==5)
 			{
-				System.out.println("totalNumberOfEvent: "+ eventPlanner.getEventNumber());
+				System.out.println("totalNumberOfEvent: "+ eventPlanner.getEventsNumber());
 			}
 			if(whatDoYouWantToDo==6)
 			{
 				System.out.println("all events was be deleted");
 				eventPlanner.clearListFromEvents();
 			}
-						
 		}
-
 	}
-
 }

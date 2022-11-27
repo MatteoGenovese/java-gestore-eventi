@@ -120,6 +120,11 @@ public class Event {
 		return this.numberOfSeatsBooked-cancellationOfSeatsAttempt<0;
 	}
 	
+	public boolean equals(Event obj) {
+		// TODO Auto-generated method stub
+		return this.title==obj.title && this.date.isEqual(obj.date);
+	}
+	
 	//---------------------------------------------------------------------------------------
 	//TOSTRING METHOD------------------------------------------------------------------------
 	//---------------------------------------------------------------------------------------

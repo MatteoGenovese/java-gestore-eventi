@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
 
@@ -13,53 +14,67 @@ public class EventPlanning {
 	private List<Event> events;
 	Scanner sc=new Scanner(System.in);
 	
+	//---------------------------------------------------------------------------------------
+	//CONSTRUCTOR----------------------------------------------------------------------------
+	//---------------------------------------------------------------------------------------
+	
 	public EventPlanning(String title) {
-		super();
-		this.title = title;
-		this.events = new ArrayList<>();
-	}
-	
-	public void addEventToList(Event event) {
-		this.events.add(event);
-	}
 		
-	public void bookingReservation(int eventIndex, int reservationAttempt) throws Exception {
-		this.events.get(eventIndex).Booking(reservationAttempt);
+		setTitle(title);
+		setEvents(new ArrayList<Event>());
 	}
 	
-	public void cancelReservation(int eventIndex, int cancellationOfSeatsAttempt) throws Exception {
-		this.events.get(eventIndex).CancelReservation(cancellationOfSeatsAttempt);
+	//---------------------------------------------------------------------------------------
+	//GETTER AND SETTERS---------------------------------------------------------------------
+	//---------------------------------------------------------------------------------------
+	
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public List<Event> getEvents() {
+		return events;
+	}
+
+	public void setEvents(List<Event> events) {
+		this.events = events;
 	}
 	
-	public void getList() {
-		for(int i=0; i<events.size();i++)
-		{
-			System.out.println(this.events.get(i));
-		}
+	//---------------------------------------------------------------------------------------
+	//PUBLIC METHODS-------------------------------------------------------------------------
+	//---------------------------------------------------------------------------------------
+
+	public void addEventToList(Event event) {
+		getEvents().add(event);
 	}
 	
-	public List<Event> getEventListInADate ( List <Event> eventList, LocalDate date) {
+	public List<Event> getEventListInADate ( LocalDate date) {
+		
 		List <Event> listOfEventInASpecificDate = new ArrayList<Event>();
-		for (int i=0;i<eventList.size();i++)
+		for (int i=0;i<getEvents().size();i++)
 		{
-			if(date.equals(eventList.get(i).getDate()))
+			if(date.equals(getEvents().get(i).getDate()))
 			{
-				listOfEventInASpecificDate.add(eventList.get(i));
+				listOfEventInASpecificDate.add(getEvents().get(i));
 			}
 		}
 		return listOfEventInASpecificDate;
 	}
 	
-	public int getEventNumber ( ) {
-		return events.size();
+	public int getEventsNumber ( ) {
+		return getEvents().size();
 	}
 	
 	public void clearListFromEvents () {
-		this.events.clear();
+		getEvents().clear();
 	}
 	
-	public void getPlanning () {
-		events.sort(new DateComparator());
+	public void getSortedPlanning () {
+		getEvents().sort(new DateComparator());
 	}
 	
 	public static class DateComparator implements Comparator<Event> {
@@ -73,8 +88,25 @@ public class EventPlanning {
 			return 0;
 		}
 	}
+		
+	public void bookingReservation(int Index, int reservationAttempt) throws Exception {
+		getEvents().get(Index).Booking(reservationAttempt);
+	}
 	
+	public void cancelReservation(int Index, int cancellationOfSeatsAttempt) throws Exception {
+		getEvents().get(Index).CancelReservation(cancellationOfSeatsAttempt);
+	}
+	
+	public void getList() {
+		for(int i=0; i<events.size();i++)
+		{
+			System.out.println(getEvents().get(i));
+		}
+	}
+		
+
+		
 	public String printEvent(int index) {
-		return this.events.get(index).toString();
+		return getEvents().get(index).toString();
 	}
 }
